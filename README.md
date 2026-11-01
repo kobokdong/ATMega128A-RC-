@@ -2,6 +2,10 @@
 
 ATmega128A와 3개의 초음파 센서를 이용해 장애물을 감지해 장애물을 회피하는 자동주행(auto mode)과, 핸드폰 앱 + Bluetooth 통신으로 RC카를 제어하는 수동주행(manual mode)를 구현한 프로젝트입니다.
 
+| Auto Mode · 장애물 회피 | Manual Mode · Bluetooth 제어 |
+| :---: | :---: |
+| ![초음파 센서를 이용한 장애물 회피 주행](docs/images/auto_drive.jpg) | ![Bluetooth 앱을 이용한 수동주행 제어](docs/images/manual_drive.jpg) |
+
 **개발자:** 고지현 · 곽혜민  
 **발표자료:** [프로젝트 발표 PDF](./AVR%20%EA%B8%B0%EB%B0%98%20%EC%B4%88%EC%9D%8C%ED%8C%8C%20%EC%9E%90%EC%9C%A8%EC%A3%BC%ED%96%89%20RC%EC%B9%B4_%EA%B3%A0%EC%A7%80%ED%98%84_%EA%B3%BD%ED%98%9C%EB%AF%BC.pdf)
 
