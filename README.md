@@ -189,15 +189,18 @@ while (1)
 }
 ```
 
-UART 수신, FND 자리 스캔 -> 인터럽트에서 실행
-모드 선택, 주행 판단, FND 표시 출력 데이터 -> 메인 루프에서 수행
+- UART 수신, FND 자리 스캔 -> 인터럽트에서 실행
+- 모드 선택, 주행 판단, FND 표시 출력 데이터 -> 메인 루프에서 수행
 (자동주행 함수가 오래 걸리면 다음 버튼 확인과 `fnd_update()` 호출도 늦어진다.)
 
 ### 5.3 모터 제어
 
-Timer1을 Fast PWM 모드 14로 설정하고 `ICR1=1023`을 TOP으로 사용합니다. `OCR1A`는 왼쪽, `OCR1B`는 오른쪽 PWM 비교값입니다. 방향은 PF0~PF3으로 설정하며, 각 주행 함수에서 FND 동작 상태도 함께 갱신합니다.
+- Timer1을 Fast PWM 모드 14로 설정하고 `ICR1=1023`을 TOP으로 사용
+- `OCR1A`는 왼쪽, `OCR1B`는 오른쪽 PWM 비교값
+- 방향은 PF0~PF3으로 설정하고, 각 주행 함수에서 FND 동작 상태도 함께 갱신
 
 ```c
+// from pwm.c
 void turn_left(int speed)
 {
     fnd_set_motion(MOTION_LEFT);
@@ -207,23 +210,20 @@ void turn_left(int speed)
 }
 ```
 
-위 코드는 원본 함수의 동작을 설명하기 위해 방향 설정 부분을 주석으로 줄인 발췌입니다. 전체 구현은 `pwm.c`에서 확인할 수 있습니다.
-
 ### 5.4 초음파 측정
 
-`ultrasonic_read_cm()`은 TRIG를 LOW 2us, HIGH 10us, 다시 LOW로 설정합니다. 이후 ECHO 상승을 기다리고 HIGH 유지시간을 누적해 `echo_time / 58`로 cm 단위 거리를 계산합니다. ECHO 대기나 HIGH 측정이 제한값에 도달하면 `400`을 반환합니다.
-
-현재 구현은 소프트웨어 반복문을 이용한 측정입니다. Timer3나 ECHO 외부 인터럽트를 사용한 측정은 아직 구현되어 있지 않습니다.
+- `ultrasonic_read_cm()`은 TRIG를 LOW 2us -> HIGH 10us -> LOW로 설정
+- 이후 ECHO 상승을 기다리고 HIGH 유지시간을 누적해 `echo_time / 58`로 cm 단위 거리를 계산
+- ECHO 대기나 HIGH 측정이 제한값에 도달하면 `400`을 반환
 
 ### 5.5 주행 기록과 표시
 
-`fnd_set_motion()`은 현재 동작을 갱신하고, 후진·좌회전·우회전에 새로 진입하면 해당 횟수를 증가시킵니다. `fnd_finish_drive()`는 결과 조회를 시작하고, `fnd_next_result_page()`는 조회 항목을 변경합니다.
+`fnd_set_motion()`은 현재 동작을 갱신하고, 후진, 좌회전, 우회전에 새로 진입하면 해당 횟수를 증가시킨다. `fnd_finish_drive()`는 결과 조회를 시작하고, `fnd_next_result_page()`는 조회 항목을 변경한다.
 
-FND의 세그먼트 데이터는 `top_data[]`, `bottom_data[]`에 보관합니다. Timer2 ISR이 8개 자리를 순환하며 출력하고, 메인 루프의 `fnd_update()`가 배열 내용을 구성합니다. **자리 스캔과 표시 내용 갱신은 서로 다른 작업**입니다.
+- FND의 세그먼트 데이터는 `top_data[]`, `bottom_data[]`에 저장
+- Timer2 ISR이 8개 자리를 순환하며 출력하고, 메인 루프의 `fnd_update()`가 배열 내용을 구성한다.
 
 ## 6. Trouble Shooting
-
-현재 코드에 반영된 대응을 정리했습니다. 실기 재시험 결과가 없는 항목은 완전 해결로 표시하지 않고, 남은 문제를 8절에 구분했습니다.
 
 ### 6.1 ECHO 응답 이상으로 측정에서 계속 기다리는 문제
 
