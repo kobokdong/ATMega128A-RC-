@@ -77,9 +77,9 @@ ATmega128A의 GPIO, UART, Timer, PWM을 실제 주행 시스템에 적용하고,
 
 [![프로젝트 회로도](docs/images/circuit.png)](docs/images/circuit.png)
 
-### 2.3 현재 소스 기준 핀 연결
+### 2.3 PIN MAP
 
-| 기능 | ATmega128A 핀 | 코드 기준 |
+| 기능 | ATmega128A 핀 | 코드 구현 |
 | --- | --- | --- |
 | 좌측 / 전방 / 우측 TRIG | PA0 / PA1 / PA2 | `ultrasonic.h` |
 | 좌측 / 전방 / 우측 ECHO | PE4 / PE5 / PE6 | `ultrasonic.h` |
@@ -88,10 +88,8 @@ ATmega128A의 GPIO, UART, Timer, PWM을 실제 주행 시스템에 적용하고,
 | 모드 버튼 BTN0 | PB4 | `button.h` |
 | UART1 RX / TX | PD2(RXD1) / PD3(TXD1) | MCU UART1 핀 기능 |
 | FND 세그먼트 a~g, dp | PC0~PC7 | `fnd.h` |
-| 위 FND 자리 선택 | PD5 / PD6 / PD7 / PE0 | `fnd.h`, `fnd_digit_on()` |
+| 위 FND 자리 선택 | PD4 / PD5 / PD6 / PD7 | `fnd.h`, `fnd_digit_on()` |
 | 아래 FND 자리 선택 | PF4~PF7 | `fnd.h` |
-
-**발표 회로도와 현재 소스의 차이:** 회로도에서는 위 FND 자리 선택에 PD4~PD7을 사용하지만, 현재 소스는 PD5~PD7과 PE0을 사용합니다. 실제 연결은 소스의 핀 정의와 실물 배선을 함께 대조해야 합니다. BTN0는 active-high 방식이며, 회로도에는 외부 풀다운 저항이 표시되어 있습니다.
 
 ## 3. Part List
 
