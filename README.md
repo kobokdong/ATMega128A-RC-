@@ -407,18 +407,6 @@ Polling 자체가 항상 느리거나 인터럽트가 항상 빠른 것은 아�
 | FND ISR과 모터 함수가 PORTF의 서로 다른 비트를 갱신하므로 read-modify-write가 겹치면 FND 자리 선택이 오래된 값으로 덮일 수 있다. | 공유 포트 갱신을 원자적으로 보호하고 다른 기능의 비트를 보존한다. | 비트 마스킹, 공유 자원 보호 |
 | 결과 조회 중에도 `manual_mode()`가 이동 명령을 처리해 차량이 움직일 수 있다. | 결과 조회와 주행 허용 상태를 구분하고, 조회 종료 전에는 이동 명령을 차단한다. | 상태별 입력 허용, 명령 게이팅 |
 
-### 8.2 갑자기 동작이 멈추는 현상
-
-| 구분 | 내용 |
-| --- | --- |
-| **코드에서 문제가 발생할 여지가 있는 부분** | 회피 중의 `stop()`·대기, 버튼에 의한 자동모드 종료, MCU 재시작이 모두 정지처럼 보일 수 있다. 현재는 정지 이유와 리셋 원인 기록이 없어 구분하기 어렵다. |
-| **해결 방안** | 정지 직전 모드·주행 상태·센서값과 정지 이유를 기록한다. 부팅 초기에 `MCUCSR`의 리셋 플래그를 저장한다. 재시작이 확인되면 모터 동작 시 VCC·RESET 파형, 배터리, 드라이버 상태를 확인한다. |
-| **적용할 요소 기술** | 상태 로그, 메인 루프 heartbeat, 리셋 원인 레지스터, 오실로스코프 측정, 전원 디커플링 |
-
-watchdog은 메인 루프 정체에서 복구하는 보완책으로 검토할 수 있지만, 정지 원인을 밝혀주는 기능은 아닙니다. 적용한다면 메인 루프의 정상 진행이 확인된 위치에서 갱신해야 합니다. 전원·RESET 노이즈 대책은 [Microchip AVR042][ref-power]를 참고해 실제 파형을 바탕으로 결정합니다.
-
-갑작스러운 정지의 원인은 현재 코드와 자료만으로 확정되지 않았습니다. ECHO 무한 대기 방지 조치와 별개로, 의도된 정지·입력 오인·리셋·모터 출력 문제를 구분하는 검증이 필요합니다.
-
 [ref-mcu]: https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-8151-8-bit-AVR-ATmega128A_Datasheet.pdf
 [ref-uart]: https://developerhelp.microchip.com/xwiki/bin/view/products/mcu-mpu/8-bit-avr/peripherals/usart/8-bit-avr-usart-mega-configuration/
 [ref-bluetooth]: https://www.bluetooth.com/learn-about-bluetooth/tech-overview/
