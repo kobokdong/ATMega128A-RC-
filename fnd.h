@@ -15,9 +15,9 @@
 #define FND_TOP_PORT   PORTD
 #define FND_TOP_FIRST   5
 
-#define FND_TOP1_DDR DDRE
-#define FND_TOP1_PORT PORTE
-#define FND_TOP_PIN3    0
+#define FND_TOP1_DDR DDRD
+#define FND_TOP1_PORT PORTD
+#define FND_TOP_PIN3    4
 
 // 아래 FND : F, b, S, L, r / 서클 / 조회 항목
 #define FND_BOTTOM_DDR   DDRF
