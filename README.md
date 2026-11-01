@@ -105,8 +105,6 @@ ATmega128A의 GPIO, UART, Timer, PWM을 실제 주행 시스템에 적용하고,
 | 4-Digit FND | 2 | 주행 상태와 결과 표시 |
 | Tact Switch | 1 | BTN0 모드 전환 및 결과 조회 |
 
-Bluetooth 모듈과 모터 드라이버의 상세 모델명은 자료에 명확히 제시되어 있지 않아 특정 제품으로 표기하지 않았습니다. FND 코드는 공통 애노드 기준으로 작성되어 있습니다.
-
 ## 4. 동작 구현
 
 ### 4.1 Manual Mode
